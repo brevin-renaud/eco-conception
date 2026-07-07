@@ -12,7 +12,7 @@ export async function register() {
     serverAddress,
     appName:        'eco-conception-backend',
     authToken,                // Bearer token — service account Grafana Cloud
-    flushIntervalMs: 3000,    // flush toutes les 3s (adapté au serverless)
+    flushIntervalMs: 1000,    // flush toutes les 1s (adapté au serverless Vercel)
     tags: { environment: process.env.NODE_ENV ?? 'production' },
   });
 
