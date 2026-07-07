@@ -10,9 +10,10 @@ export async function register() {
 
   Pyroscope.init({
     serverAddress,
-    appName:        'eco-conception-backend',
-    authToken,                // Bearer token — service account Grafana Cloud
-    flushIntervalMs: 1000,    // flush toutes les 1s (adapté au serverless Vercel)
+    appName:           'eco-conception-backend',
+    basicAuthUser:     process.env.PYROSCOPE_BASIC_AUTH_USER ?? '',
+    basicAuthPassword: authToken,
+    flushIntervalMs:   1000,
     tags: { environment: process.env.NODE_ENV ?? 'production' },
   });
 
