@@ -75,9 +75,10 @@ const Carousel = () => {
             <Image
               src={slides[currentIndex].src}
               alt={slides[currentIndex].title}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-lg pointer-events-none"
+              fill
+              priority={currentIndex === 0}
+              sizes="(max-width: 1280px) 100vw, 1280px"
+              className="rounded-lg pointer-events-none object-cover"
             />
 
             {/* Text Overlay */}

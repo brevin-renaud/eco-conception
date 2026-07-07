@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import men from "@/data/Men";
@@ -28,54 +29,58 @@ const Men = () => {
             ))}
           </div>
         ))}
-        <div className="hidden md:block  w-full h-full  rounded-lg cursor-pointer relative">
-          <div
-            className="px-4 py-6 h-full  rounded-lg  "
-            style={{
-              backgroundImage: "url('/images/men/3.jpg')",
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-            }}
-          >
-            
-          </div>
+        <div className="hidden md:block  w-full h-full  rounded-lg cursor-pointer relative overflow-hidden">
+          <Image
+            src="/images/men/3.jpg"
+            alt="Men's collection"
+            fill
+            sizes="(min-width: 768px) 25vw, 50vw"
+            className="object-cover rounded-lg"
+          />
         </div>
       </div>
 
       <div className="md:py-[15px] border-t border-neutral-800">
         <div className=" container mx-auto md:flex justify-between gap-8 items-center ">
           <div className="flex items-center grow p-1 gap-4  rounded-md cursor-pointer ">
-            <img
+            <Image
               src="/shoes2.jpg"
               alt="shoes"
-              className="h-[40px] w-[40px] rounded-md"
+              width={40}
+              height={40}
+              className="h-[40px] w-[40px] rounded-md object-cover"
             />
             <h1 className="text-md font-semibold tracking-wider">Shoes</h1>
           </div>
           <div className="flex items-center grow p-1 gap-4  rounded-md cursor-pointer">
-            <img
+            <Image
               src="/Accessories.avif"
-              alt="shoes"
-              className="h-[40px] w-[40px] rounded-md"
+              alt="accessories"
+              width={40}
+              height={40}
+              className="h-[40px] w-[40px] rounded-md object-cover"
             />
             <h1 className="text-md font-semibold tracking-wider ">
               Accessories
             </h1>
           </div>
           <div className="flex items-center grow p-1 gap-4  rounded-md cursor-pointer">
-            <img
+            <Image
               src="/Beg.avif"
-              alt="shoes"
-              className="h-[40px] w-[40px] rounded-md"
+              alt="backpacks"
+              width={40}
+              height={40}
+              className="h-[40px] w-[40px] rounded-md object-cover"
             />
             <h1 className="text-md font-semibold tracking-wider">Backpacks</h1>
           </div>
           <div className="flex items-center grow p-1 gap-4  rounded-md cursor-pointer">
-            <img
+            <Image
               src="/Socks.avif"
-              alt="shoes"
-              className="h-[40px] w-[40px] rounded-md"
+              alt="socks"
+              width={40}
+              height={40}
+              className="h-[40px] w-[40px] rounded-md object-cover"
             />
             <h1 className="text-md font-semibold tracking-wider">Socks</h1>
           </div>

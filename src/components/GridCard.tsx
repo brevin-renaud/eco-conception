@@ -1,4 +1,5 @@
 import { CardContent, Text } from "@jamsr-ui/react";
+import Image from "next/image";
 import Link from "next/link";
 
 interface ProductCardProps {
@@ -23,34 +24,36 @@ export default function CardComponent2(
       
       {/* Main image and other images in a grid */}
       <div className="grid grid-cols-3 grid-rows-2  gap-2">
-        <div className="col-span-2 row-span-2 bg-green-600 p-1 rounded-tl-sm     overflow-hidden "
-        style={{
-          backgroundImage: `url(${images[0]})`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-        }}
-        >
-        
+        <div className="col-span-2 row-span-2 rounded-tl-sm overflow-hidden">
+          <Image
+            src={images[0]}
+            alt={title}
+            width={400}
+            height={400}
+            sizes="(min-width: 1024px) 285px, (min-width: 768px) 33vw, 66vw"
+            className="w-full h-full object-cover"
+          />
         </div>
-        <div className=" bg-green-500 rounded-tr-sm
-         overflow-hidden"
-        style={{
-          backgroundImage: `url(${images[1]})`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-        }}
-        ></div>
-        <div className=" bg-green-500  h-36 overflow-hidden"
-        style={{
-          backgroundImage: `url(${images[2]})`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-        }}></div>
-        
-        
+        <div className="rounded-tr-sm overflow-hidden">
+          <Image
+            src={images[1]}
+            alt=""
+            width={200}
+            height={200}
+            sizes="(min-width: 1024px) 140px, (min-width: 768px) 16vw, 33vw"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="h-36 overflow-hidden">
+          <Image
+            src={images[2]}
+            alt=""
+            width={200}
+            height={200}
+            sizes="(min-width: 1024px) 140px, (min-width: 768px) 16vw, 33vw"
+            className="w-full h-full object-cover"
+          />
+        </div>
       </div>
       
       {/* Title, subtitle, and link */}

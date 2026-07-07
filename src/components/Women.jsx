@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import women from "@/data/Women";
@@ -35,23 +36,20 @@ const Women = () => {
                 ))}
               </div>
             ))}
-            <div className="hidden md:block  w-full h-[full]  rounded-lg cursor-pointer relative">
-              <div
-                className="px-4 py-6 h-full rounded-xl cursor-pointer"
-                style={{
-                  backgroundImage: "url('/images/women/8.jpg')",
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center",
-                }}
+            <div className="hidden md:block  w-full h-full  rounded-xl cursor-pointer relative overflow-hidden">
+              <Image
+                src="/images/women/8.jpg"
+                alt="Women's collection"
+                fill
+                sizes="(min-width: 768px) 25vw, 50vw"
+                className="object-cover rounded-xl"
+              />
+              <Link
+                href="#"
+                className=" hidden xl:block absolute top-3/4 left-1/2 transform -translate-x-1/2 text-md tracking-wider rounded-full px-2 bg-gradient-to-r from-neutral-500 via-neutral-500 to-neutral-300"
               >
-                <Link
-                  href="#"
-                  className=" hidden xl:block absolute top-3/4 left-1/2 transform -translate-x-1/2 text-md tracking-wider rounded-full px-2 bg-gradient-to-r from-neutral-500 via-neutral-500 to-neutral-300"
-                >
-                  Shop now
-                </Link>
-              </div>
+                Shop now
+              </Link>
             </div>
           </div>
         
@@ -59,36 +57,44 @@ const Women = () => {
         <div className="py-[15px] border-t border-neutral-800">
           <div className="container mx-auto md:flex justify-between gap-8 items-center">
             <div className="flex items-center grow p-1 gap-4  rounded-md cursor-pointer">
-              <img
+              <Image
                 src="/WomenShoes.avif"
                 alt="shoes"
-                className="h-[40px] w-[40px] rounded-md"
+                width={40}
+                height={40}
+                className="h-[40px] w-[40px] rounded-md object-cover"
               />
               <h1 className="text-md font-semibold tracking-wider">Shoes</h1>
             </div>
             <div className="flex items-center grow p-1 gap-4  rounded-md cursor-pointer">
-              <img
+              <Image
                 src="/Womenaccess.avif"
                 alt="accessories"
-                className="h-[40px] w-[40px] rounded-md"
+                width={40}
+                height={40}
+                className="h-[40px] w-[40px] rounded-md object-cover"
               />
               <h1 className="text-md font-semibold tracking-wider">
                 Accessories
               </h1>
             </div>
             <div className="flex items-center grow p-1 gap-4 rounded-md cursor-pointer">
-              <img
+              <Image
                 src="/T-shirt.avif"
-                alt="backpacks"
-                className="h-[40px] w-[40px] rounded-md"
+                alt="t-shirt"
+                width={40}
+                height={40}
+                className="h-[40px] w-[40px] rounded-md object-cover"
               />
               <h1 className="text-md font-semibold tracking-wider">T-shirt</h1>
             </div>
             <div className="flex items-center grow p-1 gap-4 rounded-md cursor-pointer">
-              <img
+              <Image
                 src="/hats.avif"
-                alt="socks"
-                className="h-[40px] w-[40px] rounded-md"
+                alt="hats"
+                width={40}
+                height={40}
+                className="h-[40px] w-[40px] rounded-md object-cover"
               />
               <h1 className="text-md font-semibold tracking-wider">Hats</h1>
             </div>
