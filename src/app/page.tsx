@@ -1,8 +1,5 @@
-"use client";
-import Link from "next/link";
-import { Tab, Tabs, Text } from "@jamsr-ui/react";
+import { Text } from "@jamsr-ui/react";
 
-import CardComponent from "@/components/HoverButtonCard";
 import CardComponent2 from "@/components/GridCard";
 import Card3 from "@/components/HoverCard";
 
@@ -11,7 +8,6 @@ import {
   Batch,
   HM,
   NewBalance,
-  NextArrow,
   Nick,
   NorthFace,
   Puma,
@@ -21,9 +17,7 @@ import {
 import Carousel from "@/components/Carousel";
 import ItemList from "@/components/ItemList";
 import CustomSwiper from "@/components/SwiperSlide";
-import TabImageSwiper from "@/components/TabImageSwiper";
-import womencardData from "@/data/WomenCloths";
-import mencardData from "@/data/MenCloths";
+import TrendingTabs from "@/components/TrendingTabs";
 
 interface Product {
   id: number;
@@ -113,12 +107,6 @@ const items = [
 ];
 
 const Page = () => {
-  const handleLike = () => {
-    console.log("Liked!");
-  };
-
-  
-
   return (
     
       <div className="container max-w-[1280px] mx-auto p-2 md:p-0">
@@ -128,79 +116,7 @@ const Page = () => {
         <ItemList items={items}  />
         <section className=" text-center">
           <h1 className="text-3xl font-semibold my-3">Trending Now </h1>
-          <Tabs
-            classNames={{
-              tab: " w-[200px] ",
-              
-            }}
-            variant="bordered"
-            defaultValue="men"
-          >
-            <Tab value="men" heading="Men">
-              <div className=" py-6 w-full">
-                <TabImageSwiper
-                  items={mencardData.slice(0, 6).map((card, index) => (
-                    <CardComponent
-                      href="/product/women/categories/product-details"
-                      key={index}
-                      imageSrc={card.imageSrc}
-                      altText={card.altText}
-                      title={card.title}
-                      description={card.description}
-                      price={card.price}
-                      mainPrice={card.mainPrice}
-                      isTrending={card.isTrending}
-                      onLike={handleLike}
-                      colors={card.colors}
-                      showInfoText="Quick view"
-                    />
-                  ))}
-                />
-              </div>
-              <div className="py-4 flex justify-center">
-                <Link
-                  href="product/men"
-                  className="hover:text-blue-400 hover:underline underline-offset-4 flex items-center text-lg "
-                >
-                 <p>Show all men</p>
-                 <NextArrow className="h-3" />
-                </Link>
-              </div>
-            </Tab>
-            <Tab value="women" heading="Women">
-              <div>
-                <div className=" py-6 w-full">
-                  <TabImageSwiper
-                    items={womencardData.slice(0, 6).map((card, index) => (
-                      <CardComponent
-                        href="/product/women/categories/product-details"
-                        key={index}
-                        imageSrc={card.imageSrc}
-                        altText={card.altText}
-                        title={card.title}
-                        description={card.description}
-                        price={card.price}
-                        isTrending={card.isTrending}
-                        onLike={handleLike}
-                        mainPrice={card.price}
-                        
-                        showInfoText="Quick view"
-                      />
-                    ))}
-                  />
-                </div>
-                <div className="py-5 flex justify-center">
-                  <Link
-                    href="/product/women/categories"
-                    className="  hover:text-blue-400 hover:underline underline-offset-4 flex items-center text-lg "
-                  >
-                    <p>Show all women</p>
-                    <NextArrow className="h-3" />
-                  </Link>
-                </div>
-              </div>
-            </Tab>
-          </Tabs>
+          <TrendingTabs />
         </section>
         <section className="py-5 text-center">
           <h1 className="text-3xl font-semibold my-3">

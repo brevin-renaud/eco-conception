@@ -2,10 +2,12 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import dynamic from "next/dynamic";
 import HeaderUsage from "@/components/Header";
 import Footer from "@/components/Footer";
-import Header2 from "./Header2";
-import Footer2 from "./Footer2";
+
+const Header2 = dynamic(() => import("./Header2"));
+const Footer2 = dynamic(() => import("./Footer2"));
 
 
 export default function LayoutContent({ children }: { children: React.ReactNode }) {

@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
     // Cache optimized variants for 1 year to avoid re-optimizing on every request.
     minimumCacheTTL: 31536000,
   },
+  experimental: {
+    optimizePackageImports: ['@jamsr-ui/react', 'react-icons'],
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/, // Match SVG files

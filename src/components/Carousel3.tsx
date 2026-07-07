@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { m, AnimatePresence } from 'framer-motion';
 import { Card } from '@jamsr-ui/react';
 import { useTheme } from '@/context/ThemeContext';
 import { Eye, Info, Trending } from './svgs';
@@ -27,18 +26,12 @@ export default function TitleCarousel() {
 
   return (
     <Card className= {`flex border-none  justify-center items-center   text-neutral-500 text-sm tracking-tight p-4 rounded-lg overflow-hidden relative w-full ${theme === "light" ? "bg-neutral-100" : "bg-neutral-800"}`}>
-      <AnimatePresence mode="wait">
-        <m.div
-          key={titles[index].text}
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -50 }}
-          transition={{ duration: 0.5 }}
-          className="absolute flex items-center gap-2"
-        >
-         {titles[index].icon} {titles[index].text}
-        </m.div>
-      </AnimatePresence>
+      <div
+        key={titles[index].text}
+        className="absolute flex items-center gap-2 animate-carousel-fade"
+      >
+        {titles[index].icon} {titles[index].text}
+      </div>
     </Card>
   );
 }

@@ -1,6 +1,5 @@
 "use client";
-import { useState } from "react";
-import { m, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { IconButton } from "@jamsr-ui/react";
 import Link from "next/link";
@@ -33,75 +32,74 @@ const slides = [
   },
 ];
 
-const swipeConfidenceThreshold = 50;
-const swipePower = (offset: number, velocity: number) => Math.abs(offset) * velocity;
+const SWIPE_THRESHOLD = 50;
 
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
+  const touchStartX = useRef<number | null>(null);
 
-  const changeSlide = (newIndex: number, newDirection: number) => {
-    setDirection(newDirection);
-    setCurrentIndex(() => (newIndex + slides.length) % slides.length);
+  const goTo = (i: number) =>
+    setCurrentIndex((i + slides.length) % slides.length);
+  const nextSlide = () => goTo(currentIndex + 1);
+  const prevSlide = () => goTo(currentIndex - 1);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
   };
-
-  const nextSlide = () => changeSlide(currentIndex + 1, 1);
-  const prevSlide = () => changeSlide(currentIndex - 1, -1);
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    if (delta < -SWIPE_THRESHOLD) nextSlide();
+    else if (delta > SWIPE_THRESHOLD) prevSlide();
+    touchStartX.current = null;
+  };
 
   return (
     <div className="relative w-full py-4 mx-auto rounded-lg overflow-hidden">
-      <div className="relative w-full h-[200px] md:h-[300px] lg:h-[480px] flex items-center justify-center">
-        <AnimatePresence initial={false} custom={direction}>
-          <m.div
-            key={currentIndex}
-            className="absolute w-full h-full rounded-lg text-white text-center bg-black overflow-hidden"
-            initial={{ x: direction > 0 ? "100%" : "-100%", opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: direction > 0 ? "-100%" : "100%", opacity: 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.2}
-            onDragEnd={(event, info) => {
-              const swipe = swipePower(info.offset.x, info.velocity.x);
-              if (swipe < -swipeConfidenceThreshold) {
-                nextSlide();
-              } else if (swipe > swipeConfidenceThreshold) {
-                prevSlide();
-              }
-            }}
-          >
-            {/* 🖼 Full-screen draggable image */}
-            <Image
-              src={slides[currentIndex].src}
-              alt={slides[currentIndex].title}
-              fill
-              priority={currentIndex === 0}
-              sizes="(max-width: 1280px) 100vw, 1280px"
-              className="rounded-lg pointer-events-none object-cover"
-            />
-
-            {/* Text Overlay */}
-            <div className={`text-black/75 absolute top-1/2 ${
-              currentIndex === 0 ? "left-1/2 -translate-x-1/2" : "left-[33%]"
-    } -translate-y-1/2 px-4 text-center w-2/3`}>
-              <h2 className="text-5xl font-bold">{slides[currentIndex].title}</h2>
-              <p className="text-md">{slides[currentIndex].description}</p>
-              <div className="mt-2 flex justify-center gap-2">
-                {slides[currentIndex].buttons.map((button, btnIndex) => (
-                  <Link
-                    key={btnIndex}
-                    href={button.link}
-                    passHref
-                    className="hover:text-white font-semibold text-lg px-4 py-2 rounded-lg underline underline-offset-4 tracking-tight leading-tight"
-                  >
-                    {button.text}
-                  </Link>
-                ))}
+      <div
+        className="relative w-full h-[200px] md:h-[300px] lg:h-[480px] overflow-hidden rounded-lg"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div
+          className="flex h-full transition-transform duration-500 ease-in-out"
+          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+        >
+          {slides.map((slide, index) => (
+            <div
+              key={index}
+              className="relative w-full h-full shrink-0 bg-black text-white text-center"
+            >
+              <Image
+                src={slide.src}
+                alt={slide.title}
+                fill
+                priority={index === 0}
+                sizes="(max-width: 1280px) 100vw, 1280px"
+                className="rounded-lg pointer-events-none object-cover"
+              />
+              <div
+                className={`text-black/75 absolute top-1/2 ${
+                  index === 0 ? "left-1/2 -translate-x-1/2" : "left-[33%]"
+                } -translate-y-1/2 px-4 text-center w-2/3`}
+              >
+                <h2 className="text-5xl font-bold">{slide.title}</h2>
+                <p className="text-md">{slide.description}</p>
+                <div className="mt-2 flex justify-center gap-2">
+                  {slide.buttons.map((button, btnIndex) => (
+                    <Link
+                      key={btnIndex}
+                      href={button.link}
+                      className="hover:text-white font-semibold text-lg px-4 py-2 rounded-lg underline underline-offset-4 tracking-tight leading-tight"
+                    >
+                      {button.text}
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
-          </m.div>
-        </AnimatePresence>
+          ))}
+        </div>
       </div>
 
       {/* Pagination Dots */}
@@ -109,6 +107,7 @@ const Carousel = () => {
         {slides.map((_, index) => (
           <button
             key={index}
+            aria-label={`Go to slide ${index + 1}`}
             className={`w-2 h-2 rounded-full transition-all duration-300 ${
               index === currentIndex ? "bg-white scale-125" : "bg-gray-500"
             }`}

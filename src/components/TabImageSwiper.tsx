@@ -1,74 +1,53 @@
 "use client";
 
-import { useRef, useEffect, useState, ReactNode } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import { useRef, ReactNode } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { Swiper as SwiperType } from "swiper/types";
 
 interface TabImageSwiperProps {
   items: ReactNode[]; // Accepts array of React components
-  ButtonClassName?: string; 
+  ButtonClassName?: string;
 }
 
-const TabImageSwiper: React.FC<TabImageSwiperProps> = ({ items, ButtonClassName =" absolute -translate-y-1/2 z-10 rounded-full bg-white p-2 shadow-lg text-black" }) => {
-  const prevRef = useRef<HTMLButtonElement | null>(null);
-  const nextRef = useRef<HTMLButtonElement | null>(null);
-  const swiperRef = useRef<SwiperType | null>(null);
-  const [initialized, setInitialized] = useState(false);
+const TabImageSwiper: React.FC<TabImageSwiperProps> = ({
+  items,
+  ButtonClassName = " absolute -translate-y-1/2 z-10 rounded-full bg-white p-2 shadow-lg text-black",
+}) => {
+  const trackRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    if (swiperRef.current && prevRef.current && nextRef.current) {
-      const swiper = swiperRef.current;
-      if (swiper.params.navigation && typeof swiper.params.navigation !== "boolean") {
-        swiper.params.navigation.prevEl = prevRef.current;
-        swiper.params.navigation.nextEl = nextRef.current;
-        swiper.navigation.init();
-        swiper.navigation.update();
-        setInitialized(true);
-      }
-    }
-  }, [initialized]);
+  const scroll = (dir: number) => {
+    const el = trackRef.current;
+    if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: "smooth" });
+  };
 
   return (
-    <div className="relative w-full flex justify-center  ">
-      <Swiper
-        modules={[Navigation, ]}
-        spaceBetween={20}
-        slidesPerView={2} // 🔥 Ensures 2 items on small screens
-        breakpoints={{
-          480: { slidesPerView: 2 },  // Phones
-          640: { slidesPerView: 3 },  // Small devices (mobile)
-          768: { slidesPerView: 3 },  // Tablets
-          1024: { slidesPerView: 4 } // Large desktop screens
-        }}
-        
-        
-        navigation={{ prevEl: null, nextEl: null }}
-        onSwiper={(swiper) => {
-          swiperRef.current = swiper;
-        }}
-        className=""
+    <div className="relative w-full flex justify-center">
+      <div
+        ref={trackRef}
+        className="flex gap-5 w-full overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar"
       >
         {items.map((component, index) => (
-          <SwiperSlide key={index} className="mx-auto " >{component}</SwiperSlide>
+          <div
+            key={index}
+            className="snap-start shrink-0 basis-1/2 sm:basis-1/3 lg:basis-1/4"
+          >
+            {component}
+          </div>
         ))}
-      </Swiper>
+      </div>
 
       {/* Custom Navigation Buttons */}
       <button
-        ref={prevRef}
-        className={`left-2 top-1/2 ${ButtonClassName}` }
+        onClick={() => scroll(-1)}
+        aria-label="Previous"
+        className={`left-2 top-1/2 ${ButtonClassName}`}
       >
         <IoIosArrowBack size={24} />
       </button>
 
       <button
-        ref={nextRef}
-        className={`right-2 top-1/2 ${ButtonClassName}` }
+        onClick={() => scroll(1)}
+        aria-label="Next"
+        className={`right-2 top-1/2 ${ButtonClassName}`}
       >
         <IoIosArrowForward size={24} />
       </button>
