@@ -21,6 +21,8 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['@jamsr-ui/react', 'react-icons'],
   },
+  // Empêche webpack de bundler le module natif Pyroscope (bindings N-API)
+  serverExternalPackages: ['@pyroscope/nodejs', '@datadog/pprof'],
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/, // Match SVG files
