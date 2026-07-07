@@ -1,19 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { UIConfigProvider, UIProvider } from "@jamsr-ui/react";
 import { ThemeProvider } from "@/context/ThemeContext";
 import LayoutContent from "@/components/LayoutContent";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// Éco-conception : aucune Google Font n'est chargée. Le rendu s'appuie sur la
+// pile de polices système (voir globals.css), ce qui évite ~2 requêtes réseau
+// et le téléchargement de fichiers de polices inutiles.
 
 export const metadata: Metadata = {
   title:
@@ -33,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased  flex flex-col min-h-screen `}
+        className={`antialiased  flex flex-col min-h-screen `}
       >
         <ThemeProvider>
           <UIProvider>
