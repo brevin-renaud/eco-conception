@@ -21,13 +21,23 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['@jamsr-ui/react', 'react-icons'],
   },
-  // Empêche webpack de bundler le module natif Pyroscope (bindings N-API)
-  serverExternalPackages: ['@pyroscope/nodejs', '@datadog/pprof'],
-  webpack(config) {
+  // Empêche webpack de bundler les modules natifs Pyroscope (bindings N-API)
+  serverExternalPackages: ['@pyroscope/nodejs', '@datadog/pprof', 'node-gyp-build'],
+  webpack(config, { isServer }) {
     config.module.rules.push({
-      test: /\.svg$/, // Match SVG files
-      use: ['@svgr/webpack'], // Use the SVGR loader
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
     });
+
+    // Externalise les dépendances natives côté serveur pour éviter le bundling
+    if (isServer) {
+      config.externals = [
+        ...(Array.isArray(config.externals) ? config.externals : []),
+        '@pyroscope/nodejs',
+        '@datadog/pprof',
+        'node-gyp-build',
+      ];
+    }
 
     return config;
   },
