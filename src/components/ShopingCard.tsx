@@ -1,3 +1,4 @@
+"use client";
 import {  Chip } from "@jamsr-ui/react";
 import Image from "next/image";
 import Link from "next/link";

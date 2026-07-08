@@ -50,7 +50,7 @@ export default function Carousel({ images = [] }: CarouselProps) {
 
       <div className="relative w-[500px] h-[600px]">
         {images.length > 0 && (
-          <Image src={images[activeIndex]} fill alt={`main-${activeIndex}`} className="rounded-lg object-cover" />
+          <Image src={images[activeIndex]} fill sizes="500px" alt={`main-${activeIndex}`} className="rounded-lg object-cover" />
         )}
         <div className='inline-block absolute bottom-2 right-2'>
           <button 

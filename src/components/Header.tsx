@@ -14,18 +14,19 @@ import {
   type HeaderProps,
 } from "@jamsr-ui/react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 
 import { CiMenuKebab } from "react-icons/ci";
 
-import DrawerUsage from "@/components/Drawer";
+// Éco-conception : drawers chargés à la demande (interaction), pas dans le bundle initial.
+const DrawerUsage = dynamic(() => import("@/components/Drawer"), { ssr: false });
+const Cart = dynamic(() => import("@/components/Cart"), { ssr: false });
+const Search = dynamic(() => import("@/components/Search"), { ssr: false });
 
 import Home from "@/components/Home";
 import Men from "@/components/Men";
 import Women from "@/components/Women";
-
-import Cart from "@/components/Cart";
-import Search from "@/components/Search";
 
 import Sales from "@/components/Sales";
 import Kids from "@/components/Kids";

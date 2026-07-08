@@ -1,5 +1,5 @@
-"use client";
-
+// Éco-conception : Server Component. Les éléments interactifs (Tabs, Select)
+// restent des îlots client autonomes ; la page n'expédie plus son propre JS.
 import Order from "@/components/Order";
 import { Select, SelectItem, Tab, Tabs } from "@jamsr-ui/react";
 

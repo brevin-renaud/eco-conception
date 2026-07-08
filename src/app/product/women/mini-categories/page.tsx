@@ -1,7 +1,9 @@
 "use client";
 import ButtonCard from "@/components/ButtonCard";
-import FilterDrawer from "@/components/filter/FilterDrawer";
+import dynamic from "next/dynamic";
 import FullImageCard from "@/components/FullImageCard";
+// Éco-conception : le drawer de filtres n'est chargé qu'à l'ouverture.
+const FilterDrawer = dynamic(() => import("@/components/filter/FilterDrawer"), { ssr: false });
 
 import ItemList from "@/components/ItemList";
 import ShopingCard from "@/components/ShopingCard";

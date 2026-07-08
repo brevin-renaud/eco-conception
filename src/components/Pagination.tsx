@@ -1,3 +1,4 @@
+"use client";
 import { IconButton } from '@jamsr-ui/react';
 import React from 'react';
 

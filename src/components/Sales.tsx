@@ -1,3 +1,4 @@
+"use client";
 import { useTheme } from '@/context/ThemeContext'
 import { Card } from '@jamsr-ui/react'
 import Link from 'next/link'

@@ -1,4 +1,4 @@
-"use client";
+// Éco-conception : Server Component (contenu statique + îlots client).
 import { AlertWithAction } from "@/components/AlertAction";
 import CartCard from "@/components/CartCard";
 import ShopingCard from "@/components/ShopingCard";
@@ -77,7 +77,6 @@ const page = () => {
               description={card.description}
               price={card.price}
               isTrending={card.isTrending}
-              onLike={() => console.log("liked")}
               showInfoText="Quick view"
             />
           ))}

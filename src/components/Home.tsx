@@ -1,3 +1,4 @@
+"use client";
 import { useTheme } from "@/context/ThemeContext";
 import { Button, Card } from "@jamsr-ui/react";
 

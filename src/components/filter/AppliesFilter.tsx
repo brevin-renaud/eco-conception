@@ -1,3 +1,4 @@
+"use client";
 import { useTheme } from '@/context/ThemeContext';
 import { TagsInput } from '@jamsr-ui/react'
 import React from 'react'

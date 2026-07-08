@@ -1,4 +1,4 @@
-"use client";
+// Éco-conception : Server Component (filtres/cartes = îlots client).
 import AppliesFilter from "@/components/filter/AppliesFilter";
 import Category from "@/components/filter/Category";
 import Color from "@/components/filter/Color";
@@ -61,10 +61,6 @@ const popoverData = [
 ];
 
 const page = () => {
-  const handleLike = () => {
-    console.log("Liked!");
-  };
-
   return (
     <div className="container mx-auto max-w-[1280px]">
       <div className=" py-6">
@@ -135,7 +131,6 @@ const page = () => {
             description={card.description}
             price={card.price}
             isTrending={card.isTrending}
-            onLike={handleLike}
             showInfoText="Quick view"
           />
         ))}

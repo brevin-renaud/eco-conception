@@ -1,4 +1,5 @@
-"use client";
+// Éco-conception : Server Component. Les galeries/onglets interactifs sont des
+// composants client importés (îlots) ; la page ne charge plus son propre JS.
 
 
 import {
@@ -518,7 +519,6 @@ const ProductPage = () => {
               description={card.description}
               price={card.price}
               isTrending={card.isTrending}
-              onLike={() => console.log("liked")}
               showInfoText="Quick view"
             />
           ))}

@@ -1,3 +1,4 @@
+"use client";
 import { useTheme } from "@/context/ThemeContext";
 import { Card, CardContent } from "@jamsr-ui/react";
 import React, { ReactNode } from "react";

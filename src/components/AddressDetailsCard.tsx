@@ -1,9 +1,12 @@
+"use client";
 import { useTheme } from "@/context/ThemeContext";
 import { Button, Divider } from "@jamsr-ui/react";
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import { Cardimg,  Pen, Print } from "./svgs";
 import { AddressData } from "./AddressCard";
-import CancelOrder from "./CancelOrderDialog.tsx";
+// Éco-conception : la modale d'annulation n'est chargée qu'à l'ouverture.
+const CancelOrder = dynamic(() => import("./CancelOrderDialog"));
 import Link from "next/link";
 
 

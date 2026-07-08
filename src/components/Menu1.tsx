@@ -1,3 +1,4 @@
+"use client";
 import { Divider, MenuItem } from "@jamsr-ui/react";
 import Link from "next/link";
 import data from "@/data/Menu";
