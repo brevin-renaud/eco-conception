@@ -2,7 +2,7 @@ export async function register() {
   // Pyroscope ne tourne que côté Node.js (pas dans l'Edge runtime)
   if (process.env.NEXT_RUNTIME !== 'nodejs') return;
 
-  const serverAddress = process.env.PYROSCOPE_SERVER_ADDRESS;
+  const serverAddress = (process.env.PYROSCOPE_SERVER_ADDRESS ?? '').replace(/\/$/, '');
   const authToken     = process.env.PYROSCOPE_BASIC_AUTH_PASSWORD;
   if (!serverAddress || !authToken) return;
 
