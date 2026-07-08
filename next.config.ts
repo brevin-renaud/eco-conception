@@ -23,6 +23,23 @@ const nextConfig: NextConfig = {
   },
   // Empêche webpack de bundler les modules natifs Pyroscope (bindings N-API)
   serverExternalPackages: ['@pyroscope/nodejs', '@datadog/pprof', 'node-gyp-build'],
+  // Éco-conception : le HTML des pages (hors API et assets Next) est mis en cache
+  // par le CDN pendant 1h, servi obsolète jusqu'à 24h le temps de revalider en fond.
+  // max-age=0 côté navigateur → l'utilisateur reçoit toujours le HTML à jour après
+  // un redéploiement, mais le CDN absorbe les rendus SSR (moins d'énergie à l'origine).
+  async headers() {
+    return [
+      {
+        source: '/((?!api|_next).*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400',
+          },
+        ],
+      },
+    ];
+  },
   webpack(config, { isServer }) {
     config.module.rules.push({
       test: /\.svg$/,
