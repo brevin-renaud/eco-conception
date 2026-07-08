@@ -37,18 +37,21 @@ export async function GET() {
     steps.push("import_ok");
 
     // Init explicite avec toutes les credentials
-    Pyroscope.init({
-      serverAddress,
-      appName: "eco-conception-backend",
-      basicAuthUser: authUser ?? "",
-      basicAuthPassword: authPassword,
-      flushIntervalMs: 1000,
-      tags: { environment: process.env.NODE_ENV ?? "production" },
-    });
-    steps.push("init_ok");
-
-    Pyroscope.start();
-    steps.push("start_ok");
+    // Si déjà démarré par instrumentation.ts, on ne réinit pas
+    try {
+      Pyroscope.init({
+        serverAddress,
+        appName: "eco-conception-backend",
+        basicAuthUser: authUser ?? "",
+        basicAuthPassword: authPassword,
+        flushIntervalMs: 1000,
+        tags: { environment: process.env.NODE_ENV ?? "production" },
+      });
+      Pyroscope.start();
+      steps.push("init+start_ok (cold start)");
+    } catch {
+      steps.push("already_running (instrumentation.ts avait déjà démarré)");
+    }
 
     // 2s de CPU pour générer des samples
     burnCpu(2000);
