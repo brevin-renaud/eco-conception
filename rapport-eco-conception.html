@@ -404,6 +404,27 @@
         <li>API publique : <code>public, max-age=60, s-maxage=300, stale-while-revalidate=600</code>.</li>
         <li>API privée : <code>private, no-store</code> - distinction claire ressource publique / privée.</li>
       </ul>
+
+      <h3>4.4 Preuve des headers de cache en production <span class="badge b-cdn">cdn</span></h3>
+      <p style="color:var(--muted); font-size:13.5px; margin-bottom:12px;">Headers relevés en direct sur <code>eco-conception-lbx8.vercel.app</code> :</p>
+
+      <div class="metric-grid">
+        <div class="metric-card">
+          <div class="metric-title"><span>Route publique <code>/api/products</code></span></div>
+          <pre style="font-family:'JetBrains Mono',monospace; font-size:11.5px; color:#c9e8d6; margin:0; line-height:1.8;">HTTP/2 200
+cache-control: <b style="color:var(--accent)">public</b>, max-age=60
+x-cache: MISS
+x-vercel-cache: <b style="color:var(--accent)">HIT</b></pre>
+          <p style="font-size:12px; color:var(--muted); margin:10px 0 0;">Le CDN Vercel absorbe les requêtes suivantes sans solliciter le serveur.</p>
+        </div>
+        <div class="metric-card">
+          <div class="metric-title"><span>Route privée <code>/api/me</code></span></div>
+          <pre style="font-family:'JetBrains Mono',monospace; font-size:11.5px; color:#c9e8d6; margin:0; line-height:1.8;">HTTP/2 200
+cache-control: <b style="color:var(--warn)">private</b>, no-store
+x-cache: <b style="color:var(--warn)">PASS</b></pre>
+          <p style="font-size:12px; color:var(--muted); margin:10px 0 0;">Les données utilisateur ne sont jamais mises en cache partagé.</p>
+        </div>
+      </div>
     </section>
 
     <section id="mesure">
@@ -449,8 +470,39 @@
         </figure>
       </div>
 
+      <div style="margin:10px 0 18px; font-size:13px; color:var(--muted); font-family:'JetBrains Mono',monospace;">
+        Résultats k6 Cloud :
+        <a href="https://purplemelon29.grafana.net/a/k6-app/runs/8061368" target="_blank" style="color:var(--accent)">run avant (8061368)</a>
+        &nbsp;·&nbsp;
+        <a href="https://purplemelon29.grafana.net/a/k6-app/runs/8061405" target="_blank" style="color:var(--accent)">run après (8061405)</a>
+      </div>
+
       <div class="callout">
         Avec la même infrastructure Vercel, le cache permet de servir <b>3× plus de requêtes par seconde</b> tout en réduisant la latence de 30 %. En éco-conception, cela signifie qu'une seule instance suffit là où trois auraient été nécessaires - moins de serveurs = moins d'énergie consommée.
+      </div>
+
+      <div class="metric-card" style="margin-top:18px;">
+        <div class="metric-title"><span>Analyse chiffrée - économies CPU</span><span class="gain-pill">25 ms / requête</span></div>
+        <p style="font-size:13.5px; margin:0 0 12px; color:var(--text);">
+          Le cache réduit le temps de réponse de <b>85 ms à 60 ms</b>, soit <b>25 ms de CPU économisés par requête</b>.
+        </p>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; font-family:'JetBrains Mono',monospace; font-size:12px;">
+          <div style="background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:12px; text-align:center;">
+            <div style="color:var(--accent); font-size:18px; font-weight:700;">25 ms</div>
+            <div style="color:var(--muted); margin-top:4px;">économisés / requête</div>
+          </div>
+          <div style="background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:12px; text-align:center;">
+            <div style="color:var(--accent); font-size:18px; font-weight:700;">416 min</div>
+            <div style="color:var(--muted); margin-top:4px;">CPU / million de requêtes</div>
+          </div>
+          <div style="background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:12px; text-align:center;">
+            <div style="color:var(--accent); font-size:18px; font-weight:700;">× 3,3</div>
+            <div style="color:var(--muted); margin-top:4px;">débit avec la même infra</div>
+          </div>
+        </div>
+        <p style="font-size:13px; color:var(--muted); margin:14px 0 0;">
+          Soit : 25 ms × 1 000 000 requêtes = 25 000 secondes ≈ <b style="color:var(--text)">416 minutes de CPU économisées</b> par million de requêtes. À l'échelle d'un service traitant 10 millions de requêtes par jour, cela représente <b style="color:var(--text)">plus de 4 jours de CPU</b> épargnés quotidiennement.
+        </p>
       </div>
 
       <h3>5.2 Profiling continu Pyroscope <span class="badge b-mesure">mesure</span></h3>
