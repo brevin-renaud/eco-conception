@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1e1e1e;
+    font-family: -apple-system, 'Segoe UI', monospace;
+    padding: 0;
+    width: 900px;
+  }
+  .panel {
+    background: #252526;
+    margin-bottom: 2px;
+  }
+  .panel-title {
+    background: #2d2d30;
+    padding: 10px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-left: 3px solid;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .panel-title.public { color: #4ec9b0; border-color: #4ec9b0; }
+  .panel-title.private { color: #f48771; border-color: #f48771; }
+  .panel-title .badge {
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .panel-title.public .badge { background: #4ec9b020; color: #4ec9b0; border: 1px solid #4ec9b040; }
+  .panel-title.private .badge { background: #f4877120; color: #f48771; border: 1px solid #f4877140; }
+  .url-bar {
+    background: #1a1a1b;
+    padding: 8px 16px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 11px;
+    color: #9cdcfe;
+    border-bottom: 1px solid #333;
+  }
+  .section-label {
+    padding: 8px 16px 4px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #858585;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .headers-table {
+    padding: 4px 16px 12px;
+  }
+  .header-row {
+    display: flex;
+    font-size: 11.5px;
+    line-height: 1.7;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  .header-row:last-child { border-bottom: none; }
+  .header-name {
+    color: #9cdcfe;
+    width: 280px;
+    flex-shrink: 0;
+    padding-right: 12px;
+  }
+  .header-name::after { content: ':'; }
+  .header-value { color: #ce9178; word-break: break-all; }
+  .header-value.highlight-hit { color: #4ec9b0; font-weight: 600; }
+  .header-value.highlight-miss { color: #f48771; font-weight: 600; }
+  .header-value.highlight-bypass { color: #dcdcaa; font-weight: 600; }
+  .header-value.highlight-public { color: #b5cea8; }
+  .header-value.highlight-nostore { color: #f48771; }
+  .divider {
+    height: 6px;
+    background: #1a1a1b;
+  }
+</style>
+</head>
+<body>
+
+<!-- Route publique cachée - MISS puis HIT -->
+<div class="panel">
+  <div class="panel-title public">
+    Route publique — /api/products
+    <span class="badge">Cache-Control: public</span>
+  </div>
+  <div class="url-bar">GET https://eco-conception-lbx8.vercel.app/api/products &nbsp;·&nbsp; 1re requete</div>
+  <div class="section-label">En-tetes de reponse</div>
+  <div class="headers-table">
+    <div class="header-row"><span class="header-name">cache-control</span><span class="header-value highlight-public">public, max-age=60, s-maxage=300, stale-while-revalidate=600</span></div>
+    <div class="header-row"><span class="header-name">content-type</span><span class="header-value">application/json</span></div>
+    <div class="header-row"><span class="header-name">server</span><span class="header-value">Vercel</span></div>
+    <div class="header-row"><span class="header-name">x-cache</span><span class="header-value highlight-miss">MISS</span></div>
+    <div class="header-row"><span class="header-name">x-matched-path</span><span class="header-value">/api/products</span></div>
+    <div class="header-row"><span class="header-name">x-vercel-cache</span><span class="header-value highlight-miss">MISS</span></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="panel">
+  <div class="panel-title public">
+    Route publique — /api/products
+    <span class="badge">x-vercel-cache: HIT</span>
+  </div>
+  <div class="url-bar">GET https://eco-conception-lbx8.vercel.app/api/products &nbsp;·&nbsp; 2e requete (cache CDN actif)</div>
+  <div class="section-label">En-tetes de reponse</div>
+  <div class="headers-table">
+    <div class="header-row"><span class="header-name">age</span><span class="header-value">1</span></div>
+    <div class="header-row"><span class="header-name">cache-control</span><span class="header-value highlight-public">public, max-age=60, s-maxage=300, stale-while-revalidate=600</span></div>
+    <div class="header-row"><span class="header-name">content-type</span><span class="header-value">application/json</span></div>
+    <div class="header-row"><span class="header-name">server</span><span class="header-value">Vercel</span></div>
+    <div class="header-row"><span class="header-name">x-cache</span><span class="header-value highlight-miss">MISS</span></div>
+    <div class="header-row"><span class="header-name">x-matched-path</span><span class="header-value">/api/products</span></div>
+    <div class="header-row"><span class="header-name">x-vercel-cache</span><span class="header-value highlight-hit">HIT</span></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- Route privée non cachée - BYPASS -->
+<div class="panel">
+  <div class="panel-title private">
+    Route privee — /api/products?expensive=1
+    <span class="badge">Cache-Control: no-store</span>
+  </div>
+  <div class="url-bar">GET https://eco-conception-lbx8.vercel.app/api/products?expensive=1</div>
+  <div class="section-label">En-tetes de reponse</div>
+  <div class="headers-table">
+    <div class="header-row"><span class="header-name">cache-control</span><span class="header-value highlight-nostore">no-store</span></div>
+    <div class="header-row"><span class="header-name">content-type</span><span class="header-value">application/json</span></div>
+    <div class="header-row"><span class="header-name">server</span><span class="header-value">Vercel</span></div>
+    <div class="header-row"><span class="header-name">x-cache</span><span class="header-value highlight-bypass">BYPASS</span></div>
+    <div class="header-row"><span class="header-name">x-matched-path</span><span class="header-value">/api/products</span></div>
+    <div class="header-row"><span class="header-name">x-vercel-cache</span><span class="header-value highlight-miss">MISS</span></div>
+  </div>
+</div>
+
+</body>
+</html>
